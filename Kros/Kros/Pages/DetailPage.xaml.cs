@@ -66,20 +66,22 @@ namespace Kros.Pages
 		{
 			_db = db;
 			BtnAddSubTable.Visibility = Visibility.Visible;
+			BtnBack.Visibility = Visibility.Visible;
 
 			switch (table)
 			{
 				case Firma firma:
 					SelectedMain = _db.Firmy.Include("SubTable").Include("Employee").Single(f => f.Id == table.Id);
+					BtnBack.Visibility = Visibility.Collapsed;
 					break;
 				case Divizia d:
-					SelectedMain = _db.Divizie.Include("SubTable").Include("Employee").Single(f => f.Id == table.Id);
+					SelectedMain = _db.Divizie.Include("ParentTable").Include("SubTable").Include("Employee").Single(f => f.Id == table.Id);
 					break;
 				case Projekt p:
-					SelectedMain = _db.Projekty.Include("SubTable").Include("Employee").Single(f => f.Id == table.Id);
+					SelectedMain = _db.Projekty.Include("ParentTable").Include("SubTable").Include("Employee").Single(f => f.Id == table.Id);
 					break;
 				case Oddelenie o:
-					SelectedMain = _db.Oddelenia.Include("Employee").Single(f => f.Id == table.Id);
+					SelectedMain = _db.Oddelenia.Include("ParentTable").Include("Employee").Single(f => f.Id == table.Id);
 					BtnAddSubTable.Visibility = Visibility.Collapsed;
 					break;
 				default:
@@ -151,7 +153,13 @@ namespace Kros.Pages
 				_mainWindow.Show(SelectedEmployee);
 		}
 
-		private void LabelGoToParrentClick(object sender, MouseButtonEventArgs e)
+		private void BtnClick_Remove(object sender, RoutedEventArgs e)
+		{
+			_db.Remove(SelectedMain);
+			_mainWindow.Close(true);
+		}
+
+		private void BtnClick_Back(object sender, RoutedEventArgs e)
 		{
 			switch (SelectedMain)
 			{
@@ -165,12 +173,6 @@ namespace Kros.Pages
 					_mainWindow.Show(o.ParentTable);
 					break;
 			}
-		}
-
-		private void BtnClick_Remove(object sender, RoutedEventArgs e)
-		{
-			_db.Remove(SelectedMain);
-			_mainWindow.Close(true);
 		}
 	}
 }

@@ -22,7 +22,8 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		<Label MouseDoubleClick="LabelGoToParrentClick" Grid.Row="0" Content="{Binding TableName}" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" />
+		<Button x:Name="BtnBack" Content="&lt;- Späť" HorizontalAlignment="Left" Click="BtnClick_Back"/>
+		<Label Grid.Row="0" Content="{Binding TableName}" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" />
 		<TextBox Grid.Row="1" Text="{Binding SelectedMain.Name}" materialDesign:HintAssist.Hint="Meno:" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 		<TextBox Grid.Row="2" Text="{Binding SelectedMain.Code}" materialDesign:HintAssist.Hint="Kód:" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 		<ComboBox Grid.Row="3" ItemsSource="{Binding SelectedMain.Employee}" SelectedItem="{Binding SelectedMain.MainPerson}" materialDesign:HintAssist.Hint="Vedúci zamestnanec:"/>
